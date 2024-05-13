@@ -58,7 +58,6 @@ io.on("connection", (socket) => {
         console.log(userId, userConn);
 
         socket.on('typing-event', (roomId) => {
-            // socket.broadcast.emit('typing');
             socket.to(roomId).emit('typing');
             console.log("typing");
         })

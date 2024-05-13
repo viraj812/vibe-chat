@@ -31,8 +31,6 @@ class NavHeader extends React.Component {
 
   render() {
 
-    // this.setState(this.props.style);
-
     return (
       <nav style={this.state}>
         {this.props.children}
@@ -56,9 +54,10 @@ class InputComponent extends React.Component {
       },
       styles2: {
         position: 'relative',
-        margin: "2%",
-        padding: "4%",
-        width: '100%',
+        margin: "5%",
+        padding: "0%",
+        width: '50%',
+        height: '70%',
         borderRadius: "20px",
         zIndex: '1'
       },
@@ -72,10 +71,6 @@ class InputComponent extends React.Component {
         zIndex: '2'
       },
       input_div: {
-        display: "inline-flex",
-        position: "relative",
-        alignItems: 'center',
-        alignSelf: 'center',
         width: "98%",
         height: "13%",
         border: "2px solid grey",
@@ -107,7 +102,7 @@ class InputComponent extends React.Component {
   render() {
     return (
 
-      <div style={this.state.input_div}>
+      <div style={this.state.input_div} className='input-div'>
         <input type="button" value="Start" style={this.state.styles1} className="btnStartStop" onClick={this.props.connectionCallback} />
 
         <input id='txtInput' className='msgInput' type="text" placeholder="Write your message here" style={this.state.styles2} onChange={(e) => this.handleChange(e)} required />
@@ -181,16 +176,7 @@ class BodyArea extends React.Component {
         backgroundttachment: "fixed",
         zIndex: 10
       },
-      msgList: [
-        {
-          type: 'sent',
-          value: 'om namah shivay kem chho badha om ganpate namah'
-        },
-        {
-          type: 'received',
-          value: 'bro'
-        }
-      ],
+      msgList: [],
       roomId: null,
       socketRequested: false
     }
@@ -210,18 +196,32 @@ class BodyArea extends React.Component {
         value: inputMsg
       });
       this.setState({ msgList: messages });
+
+      console.log(this.state.msgList)
     }
 
     this.toggleTyping = () => {
       let messages = this.state.msgList;
 
-      if (messages[0]['value'] != ". . .") {
+      if (messages.length != 0) {
+
+        if (messages[0]['value'] != ". . .") {
+          this.setMsg(". . .");
+
+          setTimeout(() => {
+            messages = messages.slice(1);
+            this.setState({ msgList: messages });
+          }, 500);
+        }
+
+      }
+      else {
         this.setMsg(". . .");
 
         setTimeout(() => {
           messages = messages.slice(1);
           this.setState({ msgList: messages });
-        }, 1500);
+        }, 500);
       }
     }
 
@@ -250,10 +250,10 @@ class BodyArea extends React.Component {
           {
             messages.map((msgs) => {
               let id = null;
-              if(msgs.value == ". . ."){
+              if (msgs.value == ". . .") {
                 id = "typing"
               }
-              return <MsgComponent type={msgs.type} value={msgs.value} id={id}/>
+              return <MsgComponent type={msgs.type} value={msgs.value} id={id} />
             })
           }
 
@@ -275,8 +275,6 @@ class BodyArea extends React.Component {
       </div>
     );
   }
-
-
 
   componentDidMount() {
     const status = document.getElementsByClassName('status');

@@ -75,3 +75,18 @@
     margin-right: 5%;
     font-size: 14px;
 }
+
+
+.input-div {
+    display: flex;
+    position: relative;
+
+    align-items: center;
+    justify-content: center;
+
+    align-self: center;
+
+    height: 80%;
+    width: 50%;
+    background-color: brown;
+}
