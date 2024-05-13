@@ -1,5 +1,5 @@
 import * as io from 'socket.io-client';
 
-const socket = io('http://localhost:4001/', { transports: ['polling'] });
+const socket = io('https://chat-server-rho-dun.vercel.app/', { transports: ['polling'] });
 
 export default socket;
