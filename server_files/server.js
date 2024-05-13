@@ -1,7 +1,10 @@
 const { Server } = require("socket.io");
 const { createServer } = require('http');
 
-const httpServer = createServer();
+const httpServer = createServer((req, res) => {
+    res.write("Server Running");
+    console.log("Server Started");
+});
 
 
 const io = new Server(httpServer, {
