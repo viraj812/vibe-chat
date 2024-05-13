@@ -2,8 +2,8 @@ const { Server } = require("socket.io");
 const { createServer } = require('http');
 
 const httpServer = createServer((req, res) => {
-    res.write("Server Running");
     console.log("Server Started");
+    res.write("Server Running");
 });
 
 
@@ -15,7 +15,9 @@ const io = new Server(httpServer, {
     allowEIO3: true
 });
 
-httpServer.listen(4001);
+httpServer.listen(4001, () => {
+    console.log("Server Running...");
+});
 
 
 const userId = [];
