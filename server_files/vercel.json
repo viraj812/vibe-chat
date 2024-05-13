@@ -2,7 +2,7 @@
     "version": 2,
     "route": [
         {
-            "source": "/(s.*)",
+            "source": "/(.*)",
             "destination": "/"
         }
     ],
