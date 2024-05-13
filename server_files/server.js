@@ -131,4 +131,4 @@ io.on("connection", (socket) => {
 
 });
 
-export default httpServer
+module.exports = io;
