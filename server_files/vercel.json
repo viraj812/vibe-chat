@@ -1,5 +1,11 @@
 {
     "version": 2,
+    "route": [
+        {
+            "source": "/(s.*)",
+            "destination": "/"
+        }
+    ],
     "rewrites": [
         {
             "source": "/(.*)",
