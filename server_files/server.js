@@ -16,9 +16,9 @@ const io = new Server(httpServer, {
     allowEIO3: true
 });
 
-httpServer.listen(80, () => {
-    console.log("Server Running at port 80...");
-});
+// httpServer.listen(80, () => {
+//     console.log("Server Running at port 80...");
+// });
 
 httpServer.listen(443, () => {
     console.log("Server Running at port 443...");
