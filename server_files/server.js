@@ -10,7 +10,7 @@ const httpServer = createServer((req, res) => {
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["https://vibe-chat-eosin.vercel.app/"],
+        origin: ["https://vibe-chat-eosin.vercel.app/", "https://vibe-chat.onrender.com/"],
         credentials: true
     },
     allowEIO3: true
