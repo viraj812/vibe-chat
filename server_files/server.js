@@ -3,6 +3,7 @@ const { createServer } = require('http');
 
 const httpServer = createServer((req, res) => {
     console.log("Server Started");
+    console.log(req);
     res.write("Server Running");
 });
 
@@ -132,5 +133,3 @@ io.on("connection", (socket) => {
     });
 
 });
-
-module.exports = httpServer;
