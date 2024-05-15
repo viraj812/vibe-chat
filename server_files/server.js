@@ -99,7 +99,7 @@ io.on("connection", (socket) => {
             });
 
             io.to(id).emit("stranger-disconnected");
-            console.log("gaya: ", socket.id)
+            console.log("Disconnected: ", socket.id)
         });
 
         socket.on("stranger-disconnected", () => {
@@ -127,7 +127,7 @@ io.on("connection", (socket) => {
             io.to(id).emit("stranger-disconnected");
 
             console.log(userId, userConn);
-            console.log("gaya: ", socket.id)
+            console.log("Disconnected: ", socket.id)
         });
 
     });
