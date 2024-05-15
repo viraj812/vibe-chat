@@ -17,7 +17,11 @@ const io = new Server(httpServer, {
 });
 
 httpServer.listen(80, () => {
-    console.log("Server Running...");
+    console.log("Server Running at port 80...");
+});
+
+httpServer.listen(443, () => {
+    console.log("Server Running at port 443...");
 });
 
 
