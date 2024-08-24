@@ -16,13 +16,13 @@ const io = new Server(httpServer, {
     allowEIO3: true
 });
 
-httpServer.listen(80, () => {
-    console.log("Server Running at port 80...");
-});
-
-// httpServer.listen(8080, () => {
-//     console.log("Server Running at port 8080...");
+// httpServer.listen(80, () => {
+//     console.log("Server Running at port 80...");
 // });
+
+httpServer.listen(8082, () => {
+    console.log("Server Running at port 8082...");
+});
 
 
 const userId = [];
