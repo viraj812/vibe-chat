@@ -10,7 +10,7 @@ const httpServer = createServer((req, res) => {
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["https://localhost:3000", "https://vibe-chat007.netlify.app"],
+        origin: ["https://localhost:3000", "https://vibe-chat.onrender.com"],
         credentials: true
     },
     allowEIO3: true
@@ -130,6 +130,6 @@ io.on("connection", (socket) => {
 });
 
 
-httpServer.listen(8080, () => {
-    console.log("Server Running at port 8082...");
+httpServer.listen(8085, () => {
+    console.log("Server Running at port 8085...");
 });
