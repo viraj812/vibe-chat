@@ -176,7 +176,7 @@ class BodyArea extends React.Component {
         backgroundttachment: "fixed",
         zIndex: 10
       },
-      msgList: [],
+      msgList: [{type : "sent", value : "HEY"}, {type : "received", value : "HEY"}],
       roomId: null,
       socketRequested: false
     }
@@ -234,8 +234,6 @@ class BodyArea extends React.Component {
     }
 
   }
-
-
 
   render() {
 
