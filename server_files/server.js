@@ -12,10 +12,6 @@ const io = new Server(httpServer, {
     allowEIO3: true
 });
 
-httpServer.listen(() => {
-    console.log("Server Running at port 8080...");
-});
-
 
 const userId = [];
 const userConn = [];
@@ -128,4 +124,9 @@ io.on("connection", (socket) => {
 
     });
 
+});
+
+
+httpServer.listen(8001, () => {
+    console.log("Server Running at port 8001...");
 });
