@@ -12,7 +12,7 @@ const io = new Server(httpServer, {
     allowEIO3: true
 });
 
-httpServer.listen(8080, () => {
+httpServer.listen(() => {
     console.log("Server Running at port 8080...");
 });
 
