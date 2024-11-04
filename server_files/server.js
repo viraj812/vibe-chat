@@ -10,14 +10,14 @@ const httpServer = createServer((req, res) => {
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["https://localhost:3000", "https://vibe-chat.onrender.com/"],
+        origin: ["https://localhost:3000/", "https://vibe-chat.onrender.com/"],
         credentials: true
     },
     allowEIO3: true
 });
 
-httpServer.listen(8085, () => {
-    console.log("Server Running at port 8085...");
+httpServer.listen(8080, () => {
+    console.log("Server Running at port 8080...");
 });
 
 
