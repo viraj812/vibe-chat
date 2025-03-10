@@ -6,7 +6,8 @@ const httpServer = createServer();
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["https://localhost:3000", "https://vibe-chat.onrender.com", "http://localhost:3000", "https://vibe-chat.onrender.com"],
+        origin: ["https://localhost:3000", "https://vibe-chat.onrender.com", "http://localhost:3000", "http://vibe-chat.onrender.com"],
+        method: ['GET', 'POST'],
         credentials: true
     },
     allowEIO3: true
