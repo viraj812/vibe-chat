@@ -7,7 +7,7 @@ const httpServer = createServer();
 const io = new Server(httpServer, {
     cors: {
         origin: "*".
-        method: ['GET', 'POST'],
+        methods: ['GET', 'POST'],
         credentials: true
     },
     allowEIO3: true
