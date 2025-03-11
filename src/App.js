@@ -95,7 +95,7 @@ class InputComponent extends React.Component {
         props.callback(msg, true);
         console.log(msg);
         document.getElementById('txtInput').value = "";
-        this.setState({value: ""});
+        this.setState({value: null});
       }
     };
   }
@@ -106,9 +106,9 @@ class InputComponent extends React.Component {
       <div style={this.state.input_div} className='input-div'>
         <input type="button" value={this.props.btnText} style={this.state.styles1} className="btnStartStop" onClick={this.props.connectionCallback} />
 
-        <input id='txtInput' className='msgInput' type="text" placeholder="Write your message here" style={this.state.styles2} onChange={(e) => this.handleChange(e)} required />
+        <input id='txtInput' className='msgInput' type="text" placeholder="Write your message here" style={this.state.styles2} onChange={(e) => this.handleChange(e)} onKeyDown={e => e.key === 'Enter' ? this.sendMsg() : ''} required />
 
-        <input type="button" value="Send" style={this.state.styles3} onClick={this.sendMsg} className="btnSend" />
+        <input type="button" value="Send" style={this.state.styles3} onClick={this.sendMsg}  className="btnSend" />
       </div>
     );
   }
@@ -188,11 +188,7 @@ class BodyArea extends React.Component {
       let msgType = 'received';
       let messages = this.state.msgList;
 
-      if (messages.length != 0) {
-        if (messages[0]['value'] == ". . .") {
-          messages = messages.slice(1);
-        }
-      }
+      // messages = messages.filter(m => m['value'] != ". . .");
 
       if (flag) {
         socket.emit('message-sent', inputMsg, this.state.roomId);
@@ -208,26 +204,29 @@ class BodyArea extends React.Component {
       console.log(this.state.msgList)
     }
 
+
     this.toggleTyping = () => {
       let messages = this.state.msgList;
 
-      if (messages.length != 0) {
-
+      if (messages.length > 0) {
         if (messages[0]['value'] != ". . .") {
           this.setMsg(". . .");
 
           setTimeout(() => {
-            messages = messages.slice(1);
+            messages = messages.filter(m => m['value'] != ". . .");
             this.setState({ msgList: messages });
-          }, 1000);
+          }, 200);
         }
-
       }
       else {
         this.setMsg(". . .");
-          messages = messages.slice(1);
-          this.setState({ msgList: messages });
+
+          setTimeout(() => {
+            messages = messages.filter(m => m['value'] != ". . .");
+            this.setState({ msgList: messages });
+          }, 200);
       }
+     
     }
 
     this.startConnection = () => {
