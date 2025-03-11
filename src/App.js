@@ -302,7 +302,7 @@ class BodyArea extends React.Component {
       status[0].textContent = 'Stranger Connected'
     });
 
-    socket.on('typing-event', () => {
+    socket.on('typing', () => {
         this.toggleTyping();
         console.log("typed");
     });
