@@ -95,6 +95,7 @@ class InputComponent extends React.Component {
         props.callback(msg, true);
         console.log(msg);
         document.getElementById('txtInput').value = "";
+        this.setState({value: ""});
       }
     };
   }
@@ -185,13 +186,19 @@ class BodyArea extends React.Component {
 
     this.setMsg = (inputMsg, flag = false) => {
       let msgType = 'received';
+      let messages = this.state.msgList;
+
+      if (messages.length != 0) {
+        if (messages[0]['value'] == ". . .") {
+          messages = messages.slice(1);
+        }
+      }
 
       if (flag) {
         socket.emit('message-sent', inputMsg, this.state.roomId);
         msgType = 'sent';
       }
 
-      let messages = this.state.msgList;
       messages.unshift({
         type: msgType,
         value: inputMsg
@@ -212,17 +219,14 @@ class BodyArea extends React.Component {
           setTimeout(() => {
             messages = messages.slice(1);
             this.setState({ msgList: messages });
-          }, 500);
+          }, 1000);
         }
 
       }
       else {
         this.setMsg(". . .");
-
-        setTimeout(() => {
           messages = messages.slice(1);
           this.setState({ msgList: messages });
-        }, 500);
       }
     }
 
