@@ -7,7 +7,6 @@ const httpServer = createServer();
 const io = new Server(httpServer, {
     cors: {
         origin: "*",
-        methods: ['GET', 'POST'],
         credentials: true
     },
     allowEIO3: true
@@ -55,15 +54,15 @@ io.on("connection", (socket) => {
         }
 
         console.log(userId, userConn);
-
+    });
         socket.on('typing-event', (roomId) => {
             socket.to(roomId).emit('typing');
-            console.log("typing");
+            // console.log("typing");
         })
 
         socket.on("message-sent", (message, roomId) => {
             message = String(message);
-            io.to(roomId).emit("message-received", message);
+            socket.to(roomId).emit("message-received", message);
             console.log("message: ", message);
         });
 
@@ -75,24 +74,20 @@ io.on("connection", (socket) => {
             userConn.forEach(conn => {
                 if (conn["socketId"] == socket.id) {
                     id = conn["socketId2"];
-                    remove(id);
-                    console.log(id);
-                    let index = userConn.indexOf(conn);
-                    userConn.splice(index, 1);
-                    return;
                 }
                 else if (conn["socketId2"] == socket.id) {
                     id = conn["socketId"];
+                }
+                if (id != null){
                     remove(id);
                     console.log(id);
                     let index = userConn.indexOf(conn);
                     userConn.splice(index, 1);
-                    return;
                 }
             });
 
-            io.to(id).emit("stranger-disconnected");
-            console.log("Disconnected: ", socket.id)
+            socket.to(id).emit("stranger-disconnected");
+            console.log("gaya: ", socket.id)
         });
 
         socket.on("stranger-disconnected", () => {
@@ -102,34 +97,28 @@ io.on("connection", (socket) => {
             userConn.forEach(conn => {
                 if (conn["socketId"] == socket.id) {
                     id = conn["socketId2"];
-                    remove(id);
-                    console.log(id);
-                    let index = userConn.indexOf(conn);
-                    userConn.splice(index, 1);
-                    return;
                 }
                 else if (conn["socketId2"] == socket.id) {
                     id = conn["socketId"];
+                }
+
+                if (id != null){
                     remove(id);
                     console.log(id);
                     let index = userConn.indexOf(conn);
                     userConn.splice(index, 1);
-                    return;
                 }
             });
-            io.to(id).emit("stranger-disconnected");
 
+            socket.to(id).emit("stranger-disconnected");
+            socket.emit('stranger-disconnected');
             console.log(userId, userConn);
-            console.log("Disconnected: ", socket.id)
+            console.log("gaya: ", socket.id)
         });
 
-    });
-
 });
 
-const PORT = process.env.PORT || 8081;
 
-httpServer.listen(PORT, () => {
-    console.log(`Server Running at port ${PORT}...`);
+httpServer.listen(8081, () => {
+    console.log("Server Started at 8081")
 });
-

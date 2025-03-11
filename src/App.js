@@ -103,7 +103,7 @@ class InputComponent extends React.Component {
     return (
 
       <div style={this.state.input_div} className='input-div'>
-        <input type="button" value="Start" style={this.state.styles1} className="btnStartStop" onClick={this.props.connectionCallback} />
+        <input type="button" value={this.props.btnText} style={this.state.styles1} className="btnStartStop" onClick={this.props.connectionCallback} />
 
         <input id='txtInput' className='msgInput' type="text" placeholder="Write your message here" style={this.state.styles2} onChange={(e) => this.handleChange(e)} required />
 
@@ -176,9 +176,10 @@ class BodyArea extends React.Component {
         backgroundttachment: "fixed",
         zIndex: 10
       },
-      msgList: [{type : "sent", value : "HEY"}, {type : "received", value : "HEY"}],
+      msgList: [],
       roomId: null,
-      socketRequested: false
+      socketRequested: false,
+      btnText: "Start"
     }
 
 
@@ -226,7 +227,14 @@ class BodyArea extends React.Component {
     }
 
     this.startConnection = () => {
-      socket.emit('start-connection');
+      if (this.state.btnText == "Start") {
+        socket.emit('start-connection');
+        this.setState({btnText: "Stop"});
+      }
+      else{
+        socket.emit('stranger-disconnected');
+        this.setState({btnText: "Start"});
+      }
     }
 
     this.typingCallback = () => {
@@ -241,7 +249,7 @@ class BodyArea extends React.Component {
     return (
 
       <div style={this.state.styles} >
-        <InputComponent width1="15%" width2="60%" width3="15%" callback={this.setMsg} typingCallback={this.typingCallback} connectionCallback={this.startConnection} />
+        <InputComponent width1="15%" width2="60%" width3="15%" callback={this.setMsg} typingCallback={this.typingCallback} connectionCallback={this.startConnection} btnText={this.state.btnText} />
 
         <div className="msg_box" style={this.state.msg_box}>
 
@@ -278,37 +286,39 @@ class BodyArea extends React.Component {
     const status = document.getElementsByClassName('status');
 
     socket.on("connect", () => {
-      // socket.emit('start-connection');
-      socket.on("waiting-for-connection", conn => {
-        console.log("waiting for a Stranger to connect.......");
-        status[0].style.display = "initial";
-        status[0].textContent = 'waiting for a connection';
-      });
-
-      socket.on("connection-successful", (id) => {
-        console.log("connection done: ", id);
-        this.setState({ roomId: id });
-        status[0].style.display = "initial";
-        status[0].textContent = 'Stranger Connected'
-
-        socket.on('typing', () => {
-          this.toggleTyping();
-          console.log("typed");
-        });
-
-        socket.on("message-received", (message) => {
-          this.setMsg(message);
-          console.log(message);
-        });
-
-        socket.on("stranger-disconnected", () => {
-          this.setState({ roomId: null });
-          status[0].style.display = "initial";
-          status[0].textContent = 'Disconnected'
-        });
-      });
+      console.log("Connected to Server");
     });
 
+    socket.on("waiting-for-connection", conn => {
+      console.log("waiting for a Stranger to connect.......");
+      status[0].style.display = "initial";
+      status[0].textContent = 'Waiting for a Stranger';
+    });
+
+    socket.on("connection-successful", (id) => {
+      console.log("connection done: ", id);
+      this.setState({ roomId: id });
+      status[0].style.display = "initial";
+      status[0].textContent = 'Stranger Connected'
+    });
+
+    socket.on('typing-event', () => {
+        this.toggleTyping();
+        console.log("typed");
+    });
+
+      socket.on("message-received", (message) => {
+        this.setMsg(message);
+        console.log(message);
+      });
+
+      socket.on("stranger-disconnected", () => {
+        this.setState({ roomId: null });
+        socket.emit('disconnect');
+        status[0].style.display = "initial";
+        status[0].textContent = 'Disconnected';
+        this.setState({btnText: "Start"});
+      });
   }
 }
 
